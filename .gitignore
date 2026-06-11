@@ -1,0 +1,22 @@
+# Dependencies & build output
+node_modules/
+dist/
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Claude local tooling/settings (machine-specific)
+.claude/
+
+# Env
+.env
+
+# Design handoff bundle (local reference only — photos already live in public/)
+design/

@@ -1,0 +1,447 @@
+/* =============================================================
+   Classy Chaps Summit Club — Expedition skin
+   Builds on tokens.css. Re-roles the Cosmic night-sky palette
+   into a dark Sierra expedition theme: cyan = SUMMIT, magenta =
+   BIRTHDAY/REGRET punch, star-yellow = TRAIL BLAZE.
+   ============================================================= */
+
+:root {
+  --summit: var(--cv-moon-400);      /* cyan moon-glow → summit accent */
+  --summit-deep: var(--cv-moon-700);
+  --blaze: var(--cv-star-yellow);    /* sunrise / trail blaze */
+  --punch: var(--cv-magenta-500);    /* birthdays / regret */
+  --ink: var(--cv-night-900);
+  --board-green: #0c2a22;            /* deep pine board */
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--ink);
+  overflow-x: hidden;
+}
+::selection { background: var(--summit); color: var(--ink); }
+
+/* ---- topographic contour texture, tiled, very subtle ---- */
+.topo-bg {
+  position: relative;
+  background-color: var(--ink);
+}
+.topo-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--topo-url);
+  background-size: 760px 760px;
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 0;
+}
+.topo-bg > * { position: relative; z-index: 1; }
+
+/* glow seams between sections */
+.seam {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(111,227,217,0.35), transparent);
+  border: 0;
+  margin: 0;
+}
+
+/* ---- layout helpers ---- */
+.wrap { width: 100%; max-width: 1180px; margin: 0 auto; padding-left: 22px; padding-right: 22px; }
+.section { padding-top: clamp(64px, 9vw, 120px); padding-bottom: clamp(64px, 9vw, 120px); }
+.eyebrow-blaze { color: var(--blaze); }
+.eyebrow-summit { color: var(--summit); }
+
+/* ---- badge / national-park emblem ---- */
+.np-badge {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 7px 16px 7px 8px;
+  border-radius: var(--r-pill);
+  border: 1px solid rgba(111,227,217,0.45);
+  background: rgba(12,42,34,0.55);
+  font-family: var(--font-body);
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--summit);
+  backdrop-filter: blur(6px);
+}
+
+/* ---- reveal on scroll ---- */
+.reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out); }
+.reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+
+/* ---- nav ---- */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+  transition: background var(--dur-base) var(--ease-out), backdrop-filter var(--dur-base), border-color var(--dur-base);
+  border-bottom: 1px solid transparent;
+}
+.nav.scrolled {
+  background: rgba(8,18,15,0.82);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(111,227,217,0.16);
+}
+.nav-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-links { display: none; gap: 26px; }
+.nav-link { color: var(--fg-on-dark-muted); text-decoration: none; font-size: 14px; font-weight: 500; letter-spacing: 0.01em; transition: color var(--dur-fast); }
+.nav-link:hover { color: var(--summit); }
+@media (min-width: 920px) { .nav-links { display: flex; } .nav-burger { display: none !important; } }
+
+.crest {
+  width: 38px; height: 38px; flex: none;
+  border-radius: 11px;
+  display: grid; place-items: center;
+  background: radial-gradient(120% 120% at 50% 0%, #15463c, #0a221c);
+  border: 1px solid rgba(111,227,217,0.4);
+  box-shadow: inset 0 0 14px rgba(111,227,217,0.18);
+  color: var(--summit);
+}
+
+/* ---- hero ---- */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  overflow: hidden;
+}
+.hero-photo { position: absolute; inset: 0; z-index: 0; }
+.hero-photo img { width: 100%; height: 100%; object-fit: cover; }
+.hero-scrim {
+  position: absolute; inset: 0; z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(8,18,15,0.55) 0%, rgba(8,18,15,0.25) 36%, rgba(8,18,15,0.86) 82%, var(--ink) 100%);
+}
+.hero-content { position: relative; z-index: 2; padding-bottom: clamp(40px, 8vw, 88px); }
+.hero-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  font-size: clamp(54px, 12vw, 148px);
+  text-transform: uppercase;
+  margin: 0;
+  text-shadow: 0 4px 40px rgba(0,0,0,0.5);
+}
+.hero-title .l2 { color: var(--summit); }
+
+/* ---- countdown ---- */
+.count-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 460px; }
+.count-cell {
+  background: rgba(8,18,15,0.6);
+  border: 1px solid rgba(111,227,217,0.22);
+  border-radius: 14px;
+  padding: 12px 6px;
+  text-align: center;
+  backdrop-filter: blur(6px);
+}
+.count-num { font-family: var(--font-mono); font-size: clamp(26px, 6vw, 40px); font-weight: 700; color: var(--summit); line-height: 1; letter-spacing: -0.02em; }
+.count-lbl { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--fg-on-dark-faint); margin-top: 7px; }
+
+/* ---- generic card on dark ---- */
+.xc {
+  background: linear-gradient(180deg, rgba(36,30,64,0.5), rgba(20,16,38,0.62));
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-md);
+}
+.xc-hover { transition: transform var(--dur-base) var(--ease-out), border-color var(--dur-base), box-shadow var(--dur-base); }
+.xc-hover:hover { transform: translateY(-3px); border-color: rgba(111,227,217,0.4); box-shadow: var(--shadow-lg); }
+
+.ico-tile {
+  width: 46px; height: 46px; flex: none;
+  border-radius: 13px;
+  display: grid; place-items: center;
+  background: rgba(111,227,217,0.12);
+  color: var(--summit);
+  border: 1px solid rgba(111,227,217,0.26);
+}
+.ico-tile.punch { background: rgba(198,97,214,0.14); color: var(--cv-magenta-400); border-color: rgba(198,97,214,0.3); }
+.ico-tile.blaze { background: rgba(245,192,74,0.14); color: var(--blaze); border-color: rgba(245,192,74,0.32); }
+
+/* ---- flight board ---- */
+.board {
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(111,227,217,0.06), transparent 60%),
+    linear-gradient(180deg, #0a201b, #07140f);
+  border: 1px solid rgba(111,227,217,0.18);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+.board-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid rgba(111,227,217,0.14); background: rgba(0,0,0,0.25); }
+.board-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blaze); box-shadow: 0 0 10px var(--blaze); animation: blink 1.6s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0.25; } }
+.mono { font-family: var(--font-mono); }
+.chip-iata {
+  font-family: var(--font-mono); font-weight: 700; font-size: 13px;
+  color: var(--summit); letter-spacing: 0.04em;
+}
+.status-pill { font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; padding: 3px 9px; border-radius: var(--r-pill); }
+.status-CONFIRMED { background: rgba(92,214,203,0.16); color: var(--cv-moon-300); border: 1px solid rgba(92,214,203,0.3); }
+.status-PARTIAL { background: rgba(245,192,74,0.15); color: var(--blaze); border: 1px solid rgba(245,192,74,0.32); }
+.status-TBD { background: rgba(255,255,255,0.06); color: var(--fg-on-dark-faint); border: 1px solid rgba(255,255,255,0.12); }
+
+/* ---- difficulty meter ---- */
+.diff-track { display: flex; gap: 5px; }
+.diff-seg { height: 6px; flex: 1; border-radius: 3px; background: rgba(255,255,255,0.1); }
+.diff-seg.on-2 { background: var(--blaze); }
+.diff-seg.on-4 { background: var(--cv-danger); }
+
+/* ---- checklist ---- */
+.check-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background var(--dur-fast), border-color var(--dur-fast);
+  user-select: none;
+}
+.check-row:hover { background: rgba(255,255,255,0.04); }
+.check-box {
+  width: 22px; height: 22px; flex: none; border-radius: 7px;
+  border: 1.8px solid rgba(255,255,255,0.28);
+  display: grid; place-items: center;
+  transition: background var(--dur-fast), border-color var(--dur-fast);
+  color: var(--ink);
+}
+.check-row.done .check-box { background: var(--summit); border-color: var(--summit); }
+.check-row.done .check-label { color: var(--fg-on-dark-faint); text-decoration: line-through; }
+.check-label { font-size: 15px; color: var(--fg-on-dark); transition: color var(--dur-fast); }
+
+/* ---- progress ---- */
+.prog-track { height: 8px; border-radius: 999px; background: rgba(255,255,255,0.08); overflow: hidden; }
+.prog-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--summit-deep), var(--summit)); transition: width 0.5s var(--ease-out); }
+
+/* ---- placeholder image block ---- */
+.imgph {
+  position: relative;
+  border-radius: var(--r-lg);
+  border: 1px dashed rgba(111,227,217,0.3);
+  background:
+    repeating-linear-gradient(135deg, rgba(111,227,217,0.04) 0 12px, transparent 12px 24px),
+    linear-gradient(180deg, #102a23, #0a1c17);
+  display: grid; place-items: center;
+  color: var(--fg-on-dark-faint);
+  overflow: hidden;
+  min-height: 180px;
+}
+.imgph-label { display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; letter-spacing: 0.04em; }
+
+/* ---- quote wall ---- */
+.quote-card {
+  break-inside: avoid;
+  margin-bottom: 16px;
+  padding: 22px 22px 18px;
+  border-radius: var(--r-lg);
+  background: linear-gradient(180deg, rgba(36,30,64,0.45), rgba(20,16,38,0.6));
+  border: 1px solid rgba(255,255,255,0.1);
+  border-left: 3px solid var(--summit);
+}
+.quote-card:nth-child(3n+2) { border-left-color: var(--punch); }
+.quote-card:nth-child(3n+3) { border-left-color: var(--blaze); }
+
+/* ---- footer ---- */
+.foot { border-top: 1px solid rgba(111,227,217,0.16); }
+
+/* twinkle stars in hero */
+.twinkle { position: absolute; border-radius: 50%; background: #fff; animation: tw 3s ease-in-out infinite; }
+@keyframes tw { 0%,100% { opacity: 0.15; } 50% { opacity: 0.9; } }
+
+/* utility */
+.kicker { font-size: 12px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--fg-on-dark-faint); font-weight: 600; }
+.divider-dot { color: rgba(111,227,217,0.45); }
+
+/* =============================================================
+   CINEMATIC MOTION LAYER
+   ============================================================= */
+
+/* ---- drifting moonlight wash over the hero ---- */
+.moon-wash {
+  background: radial-gradient(38% 42% at 78% 16%, rgba(111,227,217,0.22), rgba(111,227,217,0.06) 45%, transparent 70%);
+  animation: moonWash 16s ease-in-out infinite alternate;
+}
+@keyframes moonWash {
+  0%   { transform: translate3d(-2%, -1%, 0) scale(1); opacity: 0.85; }
+  100% { transform: translate3d(3%, 2%, 0) scale(1.08); opacity: 1; }
+}
+.moon-drift { animation: moonDrift 26s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: center; }
+@keyframes moonDrift {
+  0%   { transform: translate(0, 0); }
+  100% { transform: translate(-26px, 18px); }
+}
+
+/* ---- cinematic hero title reveal: wipe up + unblur ---- */
+.hero-title .l1, .hero-title .l2 {
+  display: block;
+  opacity: 0;
+  filter: blur(14px);
+  transform: translateY(0.4em);
+  clip-path: inset(0 0 102% 0);
+  animation: titleRise 1.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.hero-title .l2 { animation-delay: 0.22s; }
+@keyframes titleRise {
+  to { opacity: 1; filter: blur(0); transform: none; clip-path: inset(-20% -10% -20% 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-title .l1, .hero-title .l2 { opacity: 1; filter: none; transform: none; clip-path: none; animation: none; }
+}
+
+/* scroll cue under the hero */
+.scroll-cue { display: inline-flex; flex-direction: column; align-items: center; gap: 6px; color: var(--fg-on-dark-faint); font-size: 10.5px; letter-spacing: 0.24em; text-transform: uppercase; }
+.scroll-cue .dot { width: 22px; height: 36px; border-radius: 12px; border: 1.5px solid rgba(111,227,217,0.4); position: relative; }
+.scroll-cue .dot::after { content: ""; position: absolute; top: 7px; left: 50%; width: 4px; height: 4px; border-radius: 50%; background: var(--summit); transform: translateX(-50%); animation: cueBob 1.8s ease-in-out infinite; }
+@keyframes cueBob { 0%,100% { transform: translate(-50%, 0); opacity: 1; } 60% { transform: translate(-50%, 12px); opacity: 0.2; } }
+
+/* =============================================================
+   EXPEDITION PROGRESS TRACKER
+   ============================================================= */
+.exp-top { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 70; background: rgba(255,255,255,0.06); }
+.exp-top-fill { height: 100%; background: linear-gradient(90deg, var(--summit-deep), var(--summit), var(--blaze)); box-shadow: 0 0 12px rgba(111,227,217,0.6); transition: width 0.1s linear; }
+
+.exp-rail { position: fixed; right: 22px; top: 50%; transform: translateY(-50%); z-index: 65; display: none; flex-direction: column; align-items: center; gap: 0; }
+@media (min-width: 1180px) { .exp-rail { display: flex; } }
+.exp-track { position: relative; width: 2px; background: rgba(255,255,255,0.12); border-radius: 2px; }
+.exp-track-fill { position: absolute; top: 0; left: 0; width: 100%; background: linear-gradient(180deg, var(--summit), var(--blaze)); border-radius: 2px; }
+.exp-node { position: absolute; left: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; }
+.exp-dot { width: 11px; height: 11px; border-radius: 50%; background: var(--ink); border: 2px solid rgba(255,255,255,0.25); transition: all 0.3s var(--ease-out); cursor: pointer; }
+.exp-node.done .exp-dot { background: var(--summit); border-color: var(--summit); box-shadow: 0 0 10px rgba(111,227,217,0.7); }
+.exp-node.current .exp-dot { background: var(--blaze); border-color: var(--blaze); box-shadow: 0 0 14px rgba(245,192,74,0.8); transform: scale(1.35); }
+.exp-label { position: absolute; right: 22px; white-space: nowrap; font-size: 11px; letter-spacing: 0.06em; color: var(--fg-on-dark-muted); opacity: 0; transform: translateX(6px); transition: opacity 0.25s, transform 0.25s; pointer-events: none; }
+.exp-node:hover .exp-label, .exp-node.current .exp-label { opacity: 1; transform: none; }
+.exp-node.current .exp-label { color: var(--blaze); }
+/* the climber bead riding the track */
+.exp-climber { position: absolute; left: 50%; transform: translate(-50%, -50%); width: 16px; height: 16px; z-index: 2; pointer-events: none; }
+.exp-climber::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle, var(--blaze), rgba(245,192,74,0.2)); box-shadow: 0 0 16px var(--blaze); animation: climberPulse 2s ease-in-out infinite; }
+@keyframes climberPulse { 0%,100% { transform: scale(1); opacity: 0.9; } 50% { transform: scale(1.25); opacity: 1; } }
+
+/* =============================================================
+   CREW MISSION PATCHES
+   ============================================================= */
+.patch-wrap { perspective: 1000px; }
+.patch {
+  position: relative; aspect-ratio: 1; border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(111,227,217,0.16), transparent 60%),
+    repeating-conic-gradient(from 0deg, rgba(255,255,255,0.05) 0deg 4deg, transparent 4deg 8deg),
+    radial-gradient(circle, #15332c, #0a1f1a);
+  border: 2px solid rgba(111,227,217,0.4);
+  box-shadow: inset 0 0 22px rgba(0,0,0,0.5), 0 6px 22px rgba(0,0,0,0.4);
+  display: grid; place-items: center; text-align: center;
+  transition: transform 0.5s var(--ease-out), box-shadow 0.4s, border-color 0.4s;
+  transform-style: preserve-3d;
+  overflow: hidden;
+}
+.patch.birthday { border-color: rgba(198,97,214,0.5); background: radial-gradient(circle at 50% 38%, rgba(198,97,214,0.18), transparent 60%), repeating-conic-gradient(from 0deg, rgba(255,255,255,0.05) 0deg 4deg, transparent 4deg 8deg), radial-gradient(circle, #2a1530, #190a1e); }
+.patch::before { /* stitched rope ring */
+  content: ""; position: absolute; inset: 9px; border-radius: 50%;
+  border: 2px dashed rgba(111,227,217,0.35);
+}
+.patch.birthday::before { border-color: rgba(198,97,214,0.4); }
+.patch-wrap:hover .patch { transform: rotateY(12deg) rotateX(8deg); box-shadow: inset 0 0 22px rgba(0,0,0,0.5), 0 14px 36px rgba(0,0,0,0.55), 0 0 26px rgba(111,227,217,0.35); border-color: rgba(111,227,217,0.75); }
+.patch-wrap:hover .patch.birthday { box-shadow: inset 0 0 22px rgba(0,0,0,0.5), 0 14px 36px rgba(0,0,0,0.55), 0 0 26px rgba(198,97,214,0.4); border-color: rgba(198,97,214,0.8); }
+.patch-shine { position: absolute; inset: 0; background: linear-gradient(125deg, transparent 40%, rgba(255,255,255,0.16) 48%, transparent 56%); transform: translateX(-120%); transition: transform 0.7s var(--ease-out); }
+.patch-wrap:hover .patch-shine { transform: translateX(120%); }
+.patch-mono { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 7vw, 40px); line-height: 1; letter-spacing: -0.02em; }
+.patch-rivet { width: 5px; height: 5px; border-radius: 50%; background: rgba(111,227,217,0.55); position: absolute; }
+
+/* =============================================================
+   ROUTE-TRACING + ELEVATION DRAW
+   ============================================================= */
+.trace-path { stroke-dasharray: var(--len); stroke-dashoffset: var(--len); transition: stroke-dashoffset 2.2s cubic-bezier(0.22, 1, 0.36, 1); }
+.trace-path.drawn { stroke-dashoffset: 0; }
+.trace-fill { opacity: 0; transition: opacity 1.4s ease 0.6s; }
+.trace-fill.drawn { opacity: 1; }
+.trace-marker { opacity: 0; transition: opacity 0.4s ease; }
+.trace-marker.drawn { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .trace-path { stroke-dashoffset: 0; transition: none; }
+  .trace-fill, .trace-marker { opacity: 1; transition: none; }
+}
+
+/* summit beacon ping (Alta) */
+.summit-ping { transform-box: fill-box; transform-origin: center; }
+.summit-ping.go { animation: summitPing 2.4s ease-out infinite; }
+@keyframes summitPing { 0% { r: 5; opacity: 0.9; } 70% { r: 26; opacity: 0; } 100% { opacity: 0; } }
+
+/* summit reveal flag plant */
+.flag-plant { transform-box: fill-box; transform-origin: bottom center; transform: scaleY(0); opacity: 0; }
+.flag-plant.go { animation: flagPlant 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards 1.6s; }
+@keyframes flagPlant { to { transform: scaleY(1); opacity: 1; } }
+
+/* =============================================================
+   WATERFALL (Mist Falls)
+   ============================================================= */
+.fall-col { animation: fallDrop linear infinite; }
+@keyframes fallDrop { from { transform: translateY(-100%); } to { transform: translateY(220%); } }
+.mist-puff { animation: mistRise ease-in-out infinite; transform-box: fill-box; }
+@keyframes mistRise { 0% { opacity: 0; transform: translateY(6px) scale(0.8); } 50% { opacity: 0.5; } 100% { opacity: 0; transform: translateY(-10px) scale(1.3); } }
+
+/* =============================================================
+   ACHIEVEMENT BADGES
+   ============================================================= */
+.badge-medal {
+  position: relative; width: 64px; height: 64px; border-radius: 50%;
+  display: grid; place-items: center; flex: none;
+  background: conic-gradient(from 140deg, #1a3b34, #0c2520, #1a3b34);
+  border: 2px solid rgba(111,227,217,0.4);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4), inset 0 0 14px rgba(0,0,0,0.45);
+  color: var(--summit);
+}
+.badge-medal.blaze { color: var(--blaze); border-color: rgba(245,192,74,0.45); background: conic-gradient(from 140deg, #3a3017, #241c0c, #3a3017); }
+.badge-medal.punch { color: var(--cv-magenta-400); border-color: rgba(198,97,214,0.45); background: conic-gradient(from 140deg, #331a3a, #1e0c24, #331a3a); }
+.badge-medal::after { content: ""; position: absolute; inset: 7px; border-radius: 50%; border: 1.5px dashed currentColor; opacity: 0.4; }
+.badge-row { transition: transform 0.3s var(--ease-out), border-color 0.3s, box-shadow 0.3s; }
+.badge-row:hover { transform: translateY(-3px); border-color: rgba(111,227,217,0.4); box-shadow: var(--shadow-lg); }
+
+/* =============================================================
+   CAMPFIRE QUOTE WALL
+   ============================================================= */
+.campfire-stage { position: relative; }
+.ember { position: absolute; bottom: 0; width: 4px; height: 4px; border-radius: 50%; background: var(--blaze); box-shadow: 0 0 6px var(--blaze); animation: emberRise linear infinite; opacity: 0; }
+@keyframes emberRise {
+  0% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+  10% { opacity: 0.9; }
+  100% { transform: translateY(-220px) translateX(var(--drift, 20px)) scale(0.2); opacity: 0; }
+}
+.fire-glow { position: absolute; left: 50%; bottom: -40px; width: 360px; height: 200px; transform: translateX(-50%); background: radial-gradient(50% 60% at 50% 100%, rgba(245,192,74,0.28), rgba(245,140,74,0.1) 45%, transparent 72%); filter: blur(6px); animation: fireFlicker 3.5s ease-in-out infinite; pointer-events: none; }
+@keyframes fireFlicker { 0%,100% { opacity: 0.7; transform: translateX(-50%) scale(1); } 25% { opacity: 0.95; transform: translateX(-51%) scale(1.04); } 50% { opacity: 0.6; transform: translateX(-49%) scale(0.98); } 75% { opacity: 0.85; } }
+.quote-card.ember-card { transition: transform 0.4s var(--ease-out), box-shadow 0.4s, border-color 0.4s; }
+.quote-card.ember-card:hover { transform: translateY(-4px); border-left-width: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.4), 0 0 22px rgba(245,192,74,0.12); }
+
+/* reveal variants beyond plain fade — scale/clip entrances */
+.rise-clip { clip-path: inset(0 0 100% 0); opacity: 0; transition: clip-path 0.9s var(--ease-out), opacity 0.9s var(--ease-out); }
+.rise-clip.in { clip-path: inset(-15% 0 -15% 0); opacity: 1; }
+
+/* =============================================================
+   PHOTOS
+   ============================================================= */
+.photo-frame {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(111,227,217,0.18);
+  background: #0a1c17;
+  box-shadow: var(--shadow-md);
+}
+.photo-frame img { transition: transform 0.8s var(--ease-out), filter 0.6s; }
+.photo-frame:hover img { transform: scale(1.045); }
+.photo-cap {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  display: flex; align-items: center; gap: 7px;
+  padding: 26px 16px 12px;
+  font-size: 12px; color: var(--fg-on-dark-muted);
+  letter-spacing: 0.02em;
+  background: linear-gradient(180deg, transparent, rgba(8,18,15,0.92));
+}
+.photo-cap > span { color: var(--summit); }
+/* corner ticks — expedition print framing */
+.photo-frame.ticked::before, .photo-frame.ticked::after {
+  content: ""; position: absolute; width: 16px; height: 16px; z-index: 2; pointer-events: none;
+  border-color: rgba(111,227,217,0.55); border-style: solid; border-width: 0;
+}
+.photo-frame.ticked::before { top: 10px; left: 10px; border-top-width: 2px; border-left-width: 2px; }
+.photo-frame.ticked::after { bottom: 10px; right: 10px; border-bottom-width: 2px; border-right-width: 2px; }

@@ -1,0 +1,334 @@
+/* =============================================================
+   Cosmic Vacations — Design Tokens
+   Colors, type, spacing, radii, shadows.
+   ============================================================= */
+
+/* ---------- Web fonts (Google Fonts substitutions; see README) -- */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* =========================================================
+     CORE PALETTE
+     The brand is a night sky — deep purples, soft magenta
+     glow, with a cyan moon-glow accent for the secondary
+     logo and select highlights.
+     ========================================================= */
+
+  /* Cosmic Purples (primary background system) */
+  --cv-night-900: #0E0726;   /* deepest space */
+  --cv-night-800: #1A0F3D;   /* hero / page bg */
+  --cv-night-700: #271650;   /* card on dark */
+  --cv-night-600: #352066;   /* elevated card */
+  --cv-night-500: #4A2E85;   /* indigo mid */
+  --cv-night-400: #6C4AB6;   /* lifted accent */
+
+  /* Magenta / Pink (CTA + scallop divider) */
+  --cv-magenta-700: #8E3A9E;
+  --cv-magenta-600: #B14EC4;
+  --cv-magenta-500: #C661D6;  /* primary CTA */
+  --cv-magenta-400: #D688E1;  /* hover lift */
+  --cv-magenta-300: #E7B5EE;
+  --cv-magenta-200: #F2D9F5;
+  --cv-magenta-100: #F9ECFB;  /* contact form card bg */
+
+  /* Cyan / Moon-glow (secondary accent — used sparingly) */
+  --cv-moon-800: #1A655F;
+  --cv-moon-700: #2A8F87;     /* deep teal — CTA bottom stop */
+  --cv-moon-600: #3FB5AB;     /* teal CTA top stop */
+  --cv-moon-500: #5CD6CB;
+  --cv-moon-400: #6FE3D9;     /* "starts here" highlight (text accent) */
+  --cv-moon-300: #A6EFE8;
+
+  /* Stardust whites + neutrals */
+  --cv-white: #FFFFFF;
+  --cv-cream: #F6F1E7;        /* logo wordmark color */
+  --cv-fog-100: #F7F4FB;      /* light section bg */
+  --cv-fog-200: #ECE6F2;
+  --cv-fog-300: #C9C1D6;
+  --cv-fog-400: #9A91AE;
+  --cv-fog-500: #6B607F;
+
+  /* Status colors (utility) */
+  --cv-star-yellow: #F5C04A;  /* review stars */
+  --cv-success: #5CD6CB;
+  --cv-danger: #E5557A;
+
+  /* =========================================================
+     SEMANTIC TOKENS — dark mode (default brand surface)
+     ========================================================= */
+  --bg-app:        var(--cv-night-800);
+  --bg-elevated:   var(--cv-night-700);
+  --bg-card:       var(--cv-night-600);
+  --bg-light:      var(--cv-white);
+  --bg-light-soft: var(--cv-fog-100);
+
+  --fg-on-dark:        var(--cv-white);
+  --fg-on-dark-muted:  rgba(255, 255, 255, 0.72);
+  --fg-on-dark-faint:  rgba(255, 255, 255, 0.48);
+  --fg-on-light:       var(--cv-night-800);
+  --fg-on-light-muted: var(--cv-fog-500);
+
+  --accent:        var(--cv-magenta-500);
+  --accent-hover:  var(--cv-magenta-400);
+  --accent-press:  var(--cv-magenta-600);
+  --accent-soft:   var(--cv-magenta-100);
+
+  --highlight:     var(--cv-moon-400);    /* "starts here" cyan */
+  --eyebrow:       var(--cv-magenta-400); /* small-caps section labels */
+
+  --border-on-dark:   rgba(255, 255, 255, 0.14);
+  --border-on-light:  var(--cv-fog-200);
+  --border-accent:    var(--cv-magenta-500);
+
+  /* =========================================================
+     TYPOGRAPHY
+     Display & wordmark: Nunito (heavy, rounded — matches logo)
+     Body & UI:          Poppins (clean geometric sans)
+     ========================================================= */
+  --font-display: 'Nunito', 'Avenir Next', system-ui, sans-serif;
+  --font-body:    'Poppins', 'Inter', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, Menlo, monospace;
+
+  /* Type scale (clamped for fluid sites) */
+  --fs-display-xl: clamp(48px, 6.5vw, 96px);   /* "STELLAR STAYS AWAIT" */
+  --fs-display-lg: clamp(40px, 5vw, 72px);
+  --fs-display-md: clamp(32px, 3.6vw, 56px);   /* "Your perfect escape" */
+  --fs-h1: 48px;
+  --fs-h2: 36px;                               /* "Explore your dream destination" */
+  --fs-h3: 28px;                               /* "Ultimate Arcade Mansion" */
+  --fs-h4: 22px;
+  --fs-h5: 18px;
+  --fs-body-lg: 18px;
+  --fs-body: 16px;
+  --fs-body-sm: 14px;
+  --fs-caption: 13px;
+  --fs-eyebrow: 14px;                          /* "DISCOVER", "ABOUT US" */
+
+  --lh-tight: 1.05;
+  --lh-snug: 1.2;
+  --lh-normal: 1.45;
+  --lh-loose: 1.6;
+
+  --tracking-eyebrow: 0.32em;                  /* small-caps labels */
+  --tracking-display: -0.01em;
+
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-heavy: 800;                             /* logo wordmark weight */
+  --fw-black: 900;
+
+  /* =========================================================
+     SPACING + LAYOUT
+     ========================================================= */
+  --sp-0: 0;
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+  --sp-24: 96px;
+  --sp-32: 128px;
+
+  --container-sm: 720px;
+  --container-md: 960px;
+  --container-lg: 1200px;
+  --container-xl: 1320px;
+
+  /* =========================================================
+     RADII — soft, generous. Logo badge is the visual anchor.
+     ========================================================= */
+  --r-xs: 6px;
+  --r-sm: 10px;
+  --r-md: 16px;        /* property card image */
+  --r-lg: 24px;        /* card */
+  --r-xl: 32px;        /* feature card / contact form */
+  --r-pill: 999px;     /* CTA buttons, chips, search fields */
+
+  /* =========================================================
+     SHADOWS — cosmic glow + lifted card
+     ========================================================= */
+  --shadow-sm:   0 2px 6px rgba(14, 7, 38, 0.18);
+  --shadow-md:   0 8px 24px rgba(14, 7, 38, 0.28);
+  --shadow-lg:   0 18px 48px rgba(14, 7, 38, 0.42);
+  --shadow-glow: 0 0 32px rgba(198, 97, 214, 0.45);   /* magenta CTA halo */
+  --shadow-moon: 0 0 32px rgba(42, 143, 135, 0.55);  /* deep teal halo */
+  --shadow-card-on-light: 0 12px 32px rgba(58, 24, 92, 0.10);
+
+  /* =========================================================
+     GRADIENTS — sunset/night-sky signature
+     ========================================================= */
+  --grad-night-sky: linear-gradient(180deg, #1A0F3D 0%, #271650 55%, #4A2E85 100%);
+  --grad-sunset:    linear-gradient(180deg, #2A1656 0%, #6C4AB6 50%, #D688E1 100%);
+  --grad-cta:       linear-gradient(180deg, #D688E1 0%, #C661D6 100%);
+  --grad-cta-hover: linear-gradient(180deg, #E7B5EE 0%, #D688E1 100%);
+  --grad-cta-teal:       linear-gradient(180deg, #3FB5AB 0%, #1A655F 100%);
+  --grad-cta-teal-hover: linear-gradient(180deg, #5CD6CB 0%, #2A8F87 100%);
+  --grad-divider:   linear-gradient(180deg, var(--cv-magenta-500), var(--cv-magenta-700));
+
+  /* =========================================================
+     MOTION
+     ========================================================= */
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 140ms;
+  --dur-base: 220ms;
+  --dur-slow: 380ms;
+}
+
+/* =============================================================
+   BASE SEMANTIC ELEMENTS
+   Drop this CSS into a page and h1/h2/.eyebrow/.cta render correctly.
+   ============================================================= */
+
+html, body {
+  background: var(--bg-app);
+  color: var(--fg-on-dark);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-normal);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-display);
+  margin: 0;
+}
+
+h1, .h1 { font-size: var(--fs-display-md); font-weight: var(--fw-semibold); }
+h2, .h2 { font-size: var(--fs-h2); font-weight: var(--fw-semibold); }
+h3, .h3 { font-size: var(--fs-h3); font-weight: var(--fw-semibold); }
+h4, .h4 { font-size: var(--fs-h4); font-weight: var(--fw-semibold); }
+h5, .h5 { font-size: var(--fs-h5); font-weight: var(--fw-semibold); }
+
+.display-xl { font-family: var(--font-display); font-size: var(--fs-display-xl); font-weight: var(--fw-heavy); line-height: var(--lh-tight); letter-spacing: -0.02em; }
+.display-lg { font-family: var(--font-display); font-size: var(--fs-display-lg); font-weight: var(--fw-heavy); line-height: var(--lh-tight); letter-spacing: -0.02em; }
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--eyebrow);
+}
+
+.text-highlight { color: var(--highlight); }     /* cyan moon-glow */
+.text-accent { color: var(--accent); }            /* magenta */
+.text-muted { color: var(--fg-on-dark-muted); }
+
+p { margin: 0 0 var(--sp-4); line-height: var(--lh-loose); }
+small, .caption { font-size: var(--fs-caption); }
+
+/* CTA — magenta pill, the brand's signature button */
+.cv-cta, .cv-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  padding: 14px 28px;
+  border-radius: var(--r-pill);
+  background: var(--grad-cta);
+  color: var(--cv-white);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-semibold);
+  text-decoration: none;
+  border: 0;
+  cursor: pointer;
+  box-shadow: var(--shadow-glow);
+  transition: transform var(--dur-fast) var(--ease-out),
+              box-shadow var(--dur-base) var(--ease-out),
+              background var(--dur-base) var(--ease-out);
+}
+.cv-cta:hover, .cv-btn-primary:hover { background: var(--grad-cta-hover); transform: translateY(-1px); }
+.cv-cta:active, .cv-btn-primary:active { transform: translateY(0) scale(0.98); }
+
+/* Teal CTA — the moon-glow variant. Use on cool/sunset photography,
+   inside dark night-sky sections where magenta would compete with the
+   scallop dividers, and as a secondary action paired alongside a
+   magenta primary. Carries the same pill + halo treatment.            */
+.cv-cta--teal {
+  background: var(--grad-cta-teal);
+  color: var(--cv-white);                    /* white on deep teal */
+  box-shadow: var(--shadow-moon);
+}
+.cv-cta--teal:hover { background: var(--grad-cta-teal-hover); }
+
+.cv-btn-secondary {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 12px 24px;
+  border-radius: var(--r-pill);
+  background: transparent;
+  color: var(--cv-white);
+  border: 1.5px solid var(--border-on-dark);
+  font-family: var(--font-body); font-weight: var(--fw-medium);
+  cursor: pointer;
+  transition: background var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out);
+}
+.cv-btn-secondary:hover { background: rgba(255,255,255,0.06); border-color: var(--cv-magenta-400); }
+
+.cv-chip {
+  display: inline-flex; align-items: center;
+  padding: 6px 14px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--cv-magenta-500);
+  background: transparent;
+  color: var(--cv-white);
+  font-size: var(--fs-body-sm); font-weight: var(--fw-medium);
+}
+.cv-chip[aria-selected="true"] { background: var(--cv-magenta-500); }
+
+/* Card — the dark elevated surface */
+.cv-card {
+  background: var(--bg-card);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border-on-dark);
+  padding: var(--sp-6);
+  box-shadow: var(--shadow-md);
+}
+.cv-card--light {
+  background: var(--cv-white);
+  color: var(--fg-on-light);
+  border: 1px solid var(--border-on-light);
+  box-shadow: var(--shadow-card-on-light);
+}
+
+/* Section scallop — the signature divider */
+.cv-scallop-down,
+.cv-scallop-up {
+  position: relative;
+  background: var(--cv-magenta-500);
+  height: 80px;
+}
+.cv-scallop-down::after {
+  content: ''; position: absolute; inset: 0;
+  background: var(--bg-app);
+  border-radius: 0 0 50% 50% / 0 0 100% 100%;
+}
+.cv-scallop-up::after {
+  content: ''; position: absolute; inset: 0;
+  background: var(--bg-app);
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+}
+
+/* Amenity icon circle — line icon over magenta fill */
+.cv-icon-tile {
+  width: 56px; height: 56px;
+  border-radius: var(--r-pill);
+  background: var(--cv-magenta-500);
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--cv-white);
+}
