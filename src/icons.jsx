@@ -4,7 +4,7 @@
    ============================================================= */
 import {
   Activity, ArrowRight, Backpack, Bath, BedDouble, Beer, Cake, CalendarDays,
-  Camera, Check, CircleCheck, CircleDot, Clock, Cookie, ExternalLink, Flame,
+  Camera, Car, Check, CircleCheck, CircleDot, Clock, Cookie, ExternalLink, Flame,
   Footprints, Home, Image, KeyRound, LayoutGrid, LogIn, LogOut, Map, MapPin,
   Menu, Mountain, MountainSnow, PackageCheck, PawPrint, Plane, PlaneLanding,
   PlaneTakeoff, Quote, RotateCcw, Route, Ruler, ShieldCheck, ShoppingCart,
@@ -22,6 +22,7 @@ const REGISTRY = {
   "cake": Cake,
   "calendar-days": CalendarDays,
   "camera": Camera,
+  "car": Car,
   "check": Check,
   "circle-check": CircleCheck,
   "circle-dot": CircleDot,

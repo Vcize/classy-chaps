@@ -14,6 +14,7 @@ function FlightLeg({ leg, label, kind }) {
   // flight number: prefer a real flight code (e.g. DL3777), else show the carrier
   const flightNo = leg && leg.flight && !leg.flight.includes("→") ? leg.flight : (leg ? leg.carrier : null);
   const tbd = !leg || leg.status === "TBD";
+  const driving = !tbd && leg.status === "DRIVING";
 
   return (
     <div>
@@ -23,11 +24,21 @@ function FlightLeg({ leg, label, kind }) {
       </div>
       {tbd ? (
         <div className="mono" style={{ fontSize: 13, color: "var(--fg-on-dark-faint)" }}>—</div>
+      ) : driving ? (
+        <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
+          <Icon name="car" size={16} style={{ color: "var(--blaze)", flex: "none" }} />
+          <span style={{ fontSize: 13.5, color: "var(--fg-on-dark-muted)" }}>{leg.note}</span>
+        </div>
       ) : (
-        <div style={{ display: "flex", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}>
-          <span className="chip-iata" style={{ fontSize: 17 }}>{airport}</span>
-          <span className="mono" style={{ fontSize: 15, color: "var(--summit)", fontWeight: 700 }}>{time}</span>
-          <span className="mono" style={{ fontSize: 12, color: "var(--fg-on-dark-faint)" }}>{flightNo}</span>
+        <div>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}>
+            <span className="chip-iata" style={{ fontSize: 17 }}>{airport}</span>
+            <span className="mono" style={{ fontSize: 15, color: "var(--summit)", fontWeight: 700 }}>{time}</span>
+            <span className="mono" style={{ fontSize: 12, color: "var(--fg-on-dark-faint)" }}>{flightNo}</span>
+          </div>
+          {leg.note && (
+            <div style={{ fontSize: 11.5, fontStyle: "italic", color: "var(--fg-on-dark-faint)", marginTop: 6 }}>{leg.note}</div>
+          )}
         </div>
       )}
     </div>
@@ -36,11 +47,11 @@ function FlightLeg({ leg, label, kind }) {
 
 export function FlightBoard() {
   const flights = TRIP.flights;
-  const confirmed = flights.filter((f) => f.arrival.status === "CONFIRMED").length;
+  const confirmed = flights.filter((f) => ["CONFIRMED", "DRIVING"].includes(f.arrival.status)).length;
   return (
     <section className="section topo-bg" id="flights">
       <div className="wrap">
-        <SectionHead eyebrow="The Arrival Manifest" eyebrowClass="eyebrow-blaze" title={<>The Flight <span style={{ color: "var(--summit)" }}>Board</span></>} kicker="Who's landing when. Confirmed legs are locked; the rest of the chaps are still booking — we'll update as the manifest fills in." />
+        <SectionHead eyebrow="The Arrival Manifest" eyebrowClass="eyebrow-blaze" title={<>The Flight <span style={{ color: "var(--summit)" }}>Board</span></>} kicker="Who's landing when — and who's road-tripping. Times straight from the group chat; flight numbers still trickling in." />
         <Reveal delay={80}>
           <div className="board" style={{ marginTop: 36 }}>
             <div className="board-head">
@@ -48,7 +59,7 @@ export function FlightBoard() {
                 <span className="board-dot" />
                 <span className="mono" style={{ fontSize: 12.5, letterSpacing: "0.18em", color: "var(--summit)" }}>FAT · FRESNO YOSEMITE INTL</span>
               </div>
-              <span className="mono" style={{ fontSize: 11.5, color: "var(--fg-on-dark-faint)" }}>{confirmed}/7 CONFIRMED</span>
+              <span className="mono" style={{ fontSize: 11.5, color: "var(--fg-on-dark-faint)" }}>{confirmed}/7 LOCKED IN</span>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 0 }}>
               {flights.map((f, i) => (
