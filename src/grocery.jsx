@@ -1,19 +1,31 @@
 /* =============================================================
    Shared grocery list — one list for the whole crew, backed by
    a Cloudflare KV store via /api/grocery. Chaps add what they
-   want; the shopper checks items off as they land in the cart.
+   want (tagged with who requested it); the shopper checks items
+   off as they land in the cart.
    ============================================================= */
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Icon, Reveal, SectionHead } from "./ui.jsx";
+import { TRIP } from "./data.js";
 
 const API = "/api/grocery";
+const CHAPS = TRIP.crew.map((c) => c.name);
+const ME_KEY = "ccsc-grocery-me";
 
 export function GroceryList() {
   const [items, setItems] = useState([]);
   const [text, setText] = useState("");
+  const [me, setMe] = useState(() => {
+    try { return localStorage.getItem(ME_KEY) || ""; } catch { return ""; }
+  });
   const [status, setStatus] = useState("loading"); // loading | ok | offline
   const [busy, setBusy] = useState(false);
   const inputRef = useRef(null);
+
+  const rememberMe = (name) => {
+    setMe(name);
+    try { localStorage.setItem(ME_KEY, name); } catch {}
+  };
 
   const load = useCallback(async () => {
     try {
@@ -66,14 +78,17 @@ export function GroceryList() {
     e.preventDefault();
     const t = text.trim();
     if (!t) return;
-    const optimistic = [...items, { id: "tmp-" + Date.now(), text: t.slice(0, 120), got: false, ts: Date.now() }];
-    act("add", { text: t }, optimistic);
+    const optimistic = [...items, { id: "tmp-" + Date.now(), text: t.slice(0, 120), by: me, got: false, ts: Date.now() }];
+    act("add", { text: t, by: me }, optimistic);
     setText("");
     inputRef.current?.focus();
   };
 
   const toggle = (id) =>
     act("toggle", { id }, items.map((i) => (i.id === id ? { ...i, got: !i.got } : i)));
+
+  const setBy = (id, by) =>
+    act("setBy", { id, by }, items.map((i) => (i.id === id ? { ...i, by } : i)));
 
   const remove = (id) =>
     act("remove", { id }, items.filter((i) => i.id !== id));
@@ -85,6 +100,18 @@ export function GroceryList() {
   const sorted = [...items].sort((a, b) => (a.got === b.got ? a.ts - b.ts : a.got ? 1 : -1));
   const gotCount = items.filter((i) => i.got).length;
 
+  const chapSelect = (value, onChange, extraClass = "") => (
+    <select
+      className={`gl-by ${value ? "set" : ""} ${extraClass}`}
+      value={value || ""}
+      onChange={(e) => onChange(e.target.value)}
+      aria-label="Requested by"
+    >
+      <option value="">Requested by</option>
+      {CHAPS.map((n) => <option key={n} value={n}>{n}</option>)}
+    </select>
+  );
+
   return (
     <section className="section topo-bg" id="grocery">
       <div className="wrap">
@@ -92,7 +119,7 @@ export function GroceryList() {
           eyebrow="Base Camp Kitchen"
           eyebrowClass="eyebrow-blaze"
           title={<>The shared <span style={{ color: "var(--blaze)" }}>grocery list</span></>}
-          kicker="Add whatever you want from the store — everyone shares one list. The shopper checks things off as they land in the cart. Updates for the whole crew."
+          kicker="Add whatever you want from the store and tag who's asking — everyone shares one list. The shopper checks things off as they land in the cart."
         />
 
         <Reveal delay={60}>
@@ -111,7 +138,8 @@ export function GroceryList() {
             </div>
 
             {/* add row */}
-            <form onSubmit={add} style={{ display: "flex", gap: 10, marginBottom: 18 }}>
+            <form onSubmit={add} className="gl-add-row">
+              {chapSelect(me, rememberMe, "gl-by-add")}
               <input
                 ref={inputRef}
                 className="gl-input"
@@ -141,17 +169,20 @@ export function GroceryList() {
             ) : (
               <div style={{ display: "grid", gap: 2 }}>
                 {sorted.map((it) => (
-                  <div key={it.id} className="gl-row" onClick={() => toggle(it.id)} role="button" aria-pressed={it.got}>
-                    <span className="check-box" style={it.got ? { background: "var(--summit)", borderColor: "var(--summit)" } : {}}>
-                      {it.got && <Icon name="check" size={14} stroke={3} />}
-                    </span>
-                    <span className="check-label" style={it.got ? { color: "var(--fg-on-dark-faint)", textDecoration: "line-through" } : {}}>
-                      {it.text}
-                    </span>
+                  <div key={it.id} className="gl-row">
+                    <div className="gl-main" onClick={() => toggle(it.id)} role="button" aria-pressed={it.got}>
+                      <span className="check-box" style={it.got ? { background: "var(--summit)", borderColor: "var(--summit)" } : {}}>
+                        {it.got && <Icon name="check" size={14} stroke={3} />}
+                      </span>
+                      <span className="check-label" style={it.got ? { color: "var(--fg-on-dark-faint)", textDecoration: "line-through" } : {}}>
+                        {it.text}
+                      </span>
+                    </div>
+                    {chapSelect(it.by, (v) => setBy(it.id, v))}
                     <button
                       className="gl-remove"
                       aria-label={`Remove ${it.text}`}
-                      onClick={(e) => { e.stopPropagation(); remove(it.id); }}
+                      onClick={() => remove(it.id)}
                     >
                       <Icon name="x" size={16} />
                     </button>

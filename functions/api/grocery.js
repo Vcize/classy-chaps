@@ -5,10 +5,11 @@
 
    GET  /api/grocery            → { items: [...] }
    POST /api/grocery  body:
-     { action: "add", text }    → append an item
-     { action: "toggle", id }   → flip got
-     { action: "remove", id }   → delete an item
-     { action: "clearGot" }     → drop everything already acquired
+     { action: "add", text, by }    → append an item (by = who requested it)
+     { action: "toggle", id }       → flip got
+     { action: "setBy", id, by }    → set who requested an item
+     { action: "remove", id }       → delete an item
+     { action: "clearGot" }         → drop everything already acquired
    ============================================================= */
 const KEY = "grocery-list";
 
@@ -44,12 +45,18 @@ export async function onRequestPost({ request, env }) {
   switch (body.action) {
     case "add": {
       const text = (body.text || "").trim().slice(0, 120);
-      if (text) items.push({ id: crypto.randomUUID(), text, got: false, ts: Date.now() });
+      const by = (body.by || "").trim().slice(0, 40);
+      if (text) items.push({ id: crypto.randomUUID(), text, by, got: false, ts: Date.now() });
       break;
     }
     case "toggle":
       items = items.map((i) => (i.id === body.id ? { ...i, got: !i.got } : i));
       break;
+    case "setBy": {
+      const by = (body.by || "").trim().slice(0, 40);
+      items = items.map((i) => (i.id === body.id ? { ...i, by } : i));
+      break;
+    }
     case "remove":
       items = items.filter((i) => i.id !== body.id);
       break;

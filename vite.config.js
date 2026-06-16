@@ -8,8 +8,8 @@ import react from "@vitejs/plugin-react";
    In production the real KV-backed function takes over; this never ships. */
 function devGroceryApi() {
   let items = [
-    { id: "seed-1", text: "Ribeyes for Saturday night", got: false, ts: 1 },
-    { id: "seed-2", text: "Coffee (a lot of coffee)", got: true, ts: 2 },
+    { id: "seed-1", text: "Ribeyes for Saturday night", by: "Brett", got: false, ts: 1 },
+    { id: "seed-2", text: "Coffee (a lot of coffee)", by: "", got: true, ts: 2 },
   ];
   let n = 100;
   return {
@@ -31,9 +31,13 @@ function devGroceryApi() {
             try { body = raw ? JSON.parse(raw) : {}; } catch { return send({ error: "bad-request" }, 400); }
             if (body.action === "add") {
               const text = (body.text || "").trim().slice(0, 120);
-              if (text) items.push({ id: "dev-" + n++, text, got: false, ts: Date.now() });
+              const by = (body.by || "").trim().slice(0, 40);
+              if (text) items.push({ id: "dev-" + n++, text, by, got: false, ts: Date.now() });
             } else if (body.action === "toggle") {
               items = items.map((i) => (i.id === body.id ? { ...i, got: !i.got } : i));
+            } else if (body.action === "setBy") {
+              const by = (body.by || "").trim().slice(0, 40);
+              items = items.map((i) => (i.id === body.id ? { ...i, by } : i));
             } else if (body.action === "remove") {
               items = items.filter((i) => i.id !== body.id);
             } else if (body.action === "clearGot") {

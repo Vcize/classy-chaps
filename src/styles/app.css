@@ -454,8 +454,9 @@ body {
 .gl-live.off { background: var(--cv-magenta-400); box-shadow: none; animation: none; }
 @keyframes glPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
 
+.gl-add-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 18px; }
 .gl-input {
-  flex: 1; min-width: 0;
+  flex: 1 1 200px; min-width: 0;
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.14);
   border-radius: 12px;
@@ -466,6 +467,23 @@ body {
 }
 .gl-input::placeholder { color: var(--fg-on-dark-faint); }
 .gl-input:focus { outline: none; border-color: rgba(111,227,217,0.6); box-shadow: 0 0 0 3px rgba(111,227,217,0.14); }
+
+/* "requested by" chap dropdown */
+.gl-by {
+  flex: none; max-width: 132px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  padding: 7px 12px;
+  color: var(--fg-on-dark-faint);
+  font-family: var(--font-body); font-size: 12.5px; font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--dur-fast), color var(--dur-fast);
+}
+.gl-by.set { color: var(--summit); border-color: rgba(111,227,217,0.4); }
+.gl-by:focus { outline: none; border-color: rgba(111,227,217,0.6); }
+.gl-by option { color: #11241f; background: #eafaf7; }
+.gl-by-add { padding: 10px 12px; }
 
 .gl-add {
   flex: none;
@@ -482,14 +500,15 @@ body {
 .gl-add:disabled { opacity: 0.45; cursor: default; }
 
 .gl-row {
-  display: flex; align-items: center; gap: 12px;
-  padding: 11px 12px; border-radius: 12px;
-  border: 1px solid transparent; cursor: pointer;
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: 12px;
+  border: 1px solid transparent;
   transition: background var(--dur-fast);
-  user-select: none;
 }
 .gl-row:hover { background: rgba(255,255,255,0.04); }
 .gl-row:hover .gl-remove { opacity: 1; }
+.gl-main { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; cursor: pointer; user-select: none; }
+.gl-main .check-label { overflow-wrap: anywhere; }
 .gl-remove {
   margin-left: auto; flex: none; opacity: 0;
   background: transparent; border: 0; cursor: pointer;
