@@ -97,7 +97,7 @@ export const TRIP = {
     {
       name: "Brett",
       birthday: true,
-      arrival: { status: "DRIVING", note: "Driving in with Hunter — airport pickups for the early crew" },
+      arrival: { status: "DRIVING", note: "Driving — offered to grab the 4 PM crew + Zaks" },
       departure: { status: "DRIVING", note: "Driving home — dropping Chris in the Bay Area" },
     },
     {
@@ -121,8 +121,8 @@ export const TRIP = {
     {
       name: "Hunter",
       birthday: false,
-      arrival: { status: "DRIVING", note: "Riding with Brett — stairmaster training pays off" },
-      departure: { status: "DRIVING", note: "Riding with Brett" },
+      arrival: { status: "DRIVING", note: "Own 4Runner (seats 5) from San Diego, in ~10 PM" },
+      departure: { status: "DRIVING", note: "Driving home in the 4Runner" },
     },
     {
       name: "Zaks",
