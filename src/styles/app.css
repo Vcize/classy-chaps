@@ -446,3 +446,56 @@ body {
 }
 .photo-frame.ticked::before { top: 10px; left: 10px; border-top-width: 2px; border-left-width: 2px; }
 .photo-frame.ticked::after { bottom: 10px; right: 10px; border-bottom-width: 2px; border-right-width: 2px; }
+
+/* =============================================================
+   SHARED GROCERY LIST
+   ============================================================= */
+.gl-live { width: 8px; height: 8px; border-radius: 50%; background: var(--summit); box-shadow: 0 0 9px var(--summit); animation: glPulse 2s ease-in-out infinite; }
+.gl-live.off { background: var(--cv-magenta-400); box-shadow: none; animation: none; }
+@keyframes glPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+.gl-input {
+  flex: 1; min-width: 0;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: var(--fg-on-dark);
+  font-family: var(--font-body); font-size: 15px;
+  transition: border-color var(--dur-fast), box-shadow var(--dur-fast);
+}
+.gl-input::placeholder { color: var(--fg-on-dark-faint); }
+.gl-input:focus { outline: none; border-color: rgba(111,227,217,0.6); box-shadow: 0 0 0 3px rgba(111,227,217,0.14); }
+
+.gl-add {
+  flex: none;
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 12px 18px; border-radius: 12px;
+  border: 1px solid rgba(111,227,217,0.4);
+  background: rgba(111,227,217,0.14);
+  color: var(--summit); font-weight: 600; font-size: 14px;
+  font-family: var(--font-body); cursor: pointer;
+  transition: background var(--dur-fast), transform var(--dur-fast);
+}
+.gl-add:hover { background: rgba(111,227,217,0.22); }
+.gl-add:active { transform: scale(0.97); }
+.gl-add:disabled { opacity: 0.45; cursor: default; }
+
+.gl-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 12px; border-radius: 12px;
+  border: 1px solid transparent; cursor: pointer;
+  transition: background var(--dur-fast);
+  user-select: none;
+}
+.gl-row:hover { background: rgba(255,255,255,0.04); }
+.gl-row:hover .gl-remove { opacity: 1; }
+.gl-remove {
+  margin-left: auto; flex: none; opacity: 0;
+  background: transparent; border: 0; cursor: pointer;
+  color: var(--fg-on-dark-faint);
+  display: inline-flex; padding: 4px; border-radius: 8px;
+  transition: opacity var(--dur-fast), color var(--dur-fast), background var(--dur-fast);
+}
+.gl-remove:hover { color: var(--cv-magenta-400); background: rgba(198,97,214,0.12); }
+@media (hover: none) { .gl-remove { opacity: 0.6; } }

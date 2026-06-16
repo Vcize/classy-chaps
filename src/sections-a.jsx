@@ -130,7 +130,7 @@ export function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
   const links = [
-    ["Mission", "mission"], ["Crew", "crew"], ["Flights", "flights"],
+    ["Mission", "mission"], ["Crew", "crew"], ["Flights", "flights"], ["Grocery", "grocery"],
     ["Base Camp", "basecamp"], ["Itinerary", "itinerary"], ["Trails", "trails"],
     ["Packing", "packing"],
   ];

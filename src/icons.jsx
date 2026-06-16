@@ -7,7 +7,7 @@ import {
   Camera, Car, Check, CircleCheck, CircleDot, Clock, Cookie, ExternalLink, Flame,
   Footprints, Home, Image, KeyRound, LayoutGrid, LogIn, LogOut, Map, MapPin,
   Menu, Mountain, MountainSnow, PackageCheck, PawPrint, Plane, PlaneLanding,
-  PlaneTakeoff, Quote, RotateCcw, Route, Ruler, ShieldCheck, ShoppingCart,
+  PlaneTakeoff, Plus, Quote, RotateCcw, Route, Ruler, ShieldCheck, ShoppingCart,
   Signpost, Siren, Snowflake, Sparkles, SquareCheck, TentTree, Ticket, Trees,
   TrendingUp, UserRound, Users, Utensils, Video, Waves, X,
 } from "lucide-react";
@@ -47,6 +47,7 @@ const REGISTRY = {
   "plane": Plane,
   "plane-landing": PlaneLanding,
   "plane-takeoff": PlaneTakeoff,
+  "plus": Plus,
   "quote": Quote,
   "rotate-ccw": RotateCcw,
   "route": Route,
