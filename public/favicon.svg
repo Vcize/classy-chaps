@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <linearGradient id="badge" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#15463c"/>
+      <stop offset="1" stop-color="#081a14"/>
+    </linearGradient>
+    <linearGradient id="peak" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9af1e7"/>
+      <stop offset="1" stop-color="#3fb5ab"/>
+    </linearGradient>
+  </defs>
+
+  <!-- pine badge -->
+  <rect x="1" y="1" width="30" height="30" rx="8" fill="url(#badge)"/>
+
+  <!-- faint topo contour, reads only at larger sizes -->
+  <path d="M5 23 Q16 17 27 23" fill="none" stroke="#6fe3d9" stroke-opacity="0.16" stroke-width="1"/>
+
+  <!-- mountain ridge -->
+  <path d="M3.5 25.5 L12 13.5 L16 18.6 L21 9 L28.5 25.5 Z" fill="url(#peak)"/>
+  <!-- snow caps -->
+  <path d="M21 9 L18.4 13.9 L19.9 13 L21.2 14.1 L23.1 11.4 Z" fill="#eafaf7"/>
+  <path d="M12 13.5 L10.2 16.2 L13.8 16.2 Z" fill="#eafaf7" fill-opacity="0.85"/>
+
+  <!-- summit blaze star -->
+  <path d="M21 4.6 L21.85 6.85 L24.1 7.7 L21.85 8.55 L21 10.8 L20.15 8.55 L17.9 7.7 L20.15 6.85 Z" fill="#f5c04a"/>
+
+  <!-- cyan rim -->
+  <rect x="1.6" y="1.6" width="28.8" height="28.8" rx="7.4" fill="none" stroke="#6fe3d9" stroke-opacity="0.5" stroke-width="1.2"/>
+</svg>

@@ -167,7 +167,13 @@ export function GroceryList() {
                 <p style={{ marginTop: 10, fontSize: 14 }}>No items yet — add the first thing the crew needs.</p>
               </div>
             ) : (
-              <div style={{ display: "grid", gap: 2 }}>
+              <>
+                <div className="gl-head">
+                  <span className="gl-head-item">Item</span>
+                  <span className="gl-head-by">Requested by</span>
+                  <span className="gl-head-spacer" aria-hidden="true" />
+                </div>
+                <div style={{ display: "grid", gap: 2 }}>
                 {sorted.map((it) => (
                   <div key={it.id} className="gl-row">
                     <div className="gl-main" onClick={() => toggle(it.id)} role="button" aria-pressed={it.got}>
@@ -188,7 +194,8 @@ export function GroceryList() {
                     </button>
                   </div>
                 ))}
-              </div>
+                </div>
+              </>
             )}
 
             {gotCount > 0 && (
